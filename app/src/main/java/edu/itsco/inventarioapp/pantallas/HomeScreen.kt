@@ -29,7 +29,10 @@ import edu.itsco.inventarioapp.ui.theme.InventarioAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(
+    navController: NavHostController,
+    viewModel: ProductoViewModel
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -124,6 +127,8 @@ fun ProductoCardPreview(){
             3))
 }
 
+
+/*
 @Preview(showBackground = true)
 @Composable
 fun HomePreview(){
@@ -133,3 +138,4 @@ fun HomePreview(){
         )
     }
 }
+*/

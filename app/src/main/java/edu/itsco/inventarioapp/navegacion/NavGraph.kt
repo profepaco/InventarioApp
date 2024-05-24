@@ -6,10 +6,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import edu.itsco.inventarioapp.pantallas.HomeScreen
 import edu.itsco.inventarioapp.pantallas.NuevoProductoScreen
+import edu.itsco.inventarioapp.pantallas.ProductoViewModel
 
 @Composable
 fun NavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: ProductoViewModel
 ){
     NavHost(
         navController = navController,
@@ -17,12 +19,14 @@ fun NavGraph(
     {
         composable(route = Pantallas.Home.url){
             HomeScreen(
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
         composable(route = Pantallas.NuevoProducto.url){
             NuevoProductoScreen(
-                navController = navController
+                navController = navController,
+                viewModel = viewModel
             )
         }
     }
