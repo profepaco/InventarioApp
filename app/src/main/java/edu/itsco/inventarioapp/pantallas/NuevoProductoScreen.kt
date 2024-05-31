@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role.Companion.Button
@@ -30,8 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import edu.itsco.inventarioapp.data.Producto
 import edu.itsco.inventarioapp.navegacion.Pantallas
 import edu.itsco.inventarioapp.ui.theme.InventarioAppTheme
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,15 +64,17 @@ fun NuevoProductoScreen(
         }
     ) {
         Formulario(Modifier.padding(it),
-            navController)
+            navController, viewModel)
     }
 }
 
 @Composable
 fun Formulario(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: ProductoViewModel
 ){
+    val coroutineScope = rememberCoroutineScope()
     var nombre by remember {
         mutableStateOf("")
     }
@@ -124,7 +129,21 @@ fun Formulario(
             .padding(all = 8.dp)
         ){
             Button(onClick = {
-
+                coroutineScope.launch{
+                    val producto =
+                        Producto(
+                            0
+                            ,nombre,
+                            precio.toDouble(),
+                            cantidad.toInt()
+                        )
+                    viewModel.insertarProducto(
+                        producto = producto
+                    )
+                    navController.navigate(
+                        route = Pantallas.Home.url
+                    )
+                }
             }){
                 Text("Guardar")
             }

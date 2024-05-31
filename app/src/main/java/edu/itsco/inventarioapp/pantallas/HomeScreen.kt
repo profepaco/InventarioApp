@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import edu.itsco.inventarioapp.data.Producto
 import edu.itsco.inventarioapp.navegacion.Pantallas
 import edu.itsco.inventarioapp.ui.theme.InventarioAppTheme
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.toList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +37,8 @@ fun HomeScreen(
     navController: NavHostController,
     viewModel: ProductoViewModel
 ) {
+    val homeUiState by
+        viewModel.listState.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,7 +64,7 @@ fun HomeScreen(
         floatingActionButtonPosition = FabPosition.Center
     ) {
         Column(modifier = Modifier.padding(it)){
-            ListaProductos(lista = listOf())
+            ListaProductos(lista = homeUiState.list)
         }
     }
 }
